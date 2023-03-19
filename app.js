@@ -4,6 +4,14 @@ const app = express();
 const port = 3000;
 
 
+
+const exphbs = require('express-handlebars').engine;
+
+app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
+app.set('view engine', 'hbs');
+
+
+
 //僅在非正式環境時使用dotenv
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -35,7 +43,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.get('/', (req, res) => {
 
-    res.send('Hello World!');
+    res.render('index');
 })
 
 app.listen(port, () => {
