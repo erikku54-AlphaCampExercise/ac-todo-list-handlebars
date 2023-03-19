@@ -4,7 +4,7 @@
     <li>
         {{this.name}}
         <button onclick="window.location.href = '/todos/{{this._id}}'">detail</button>
-        <button>edit</button>
+        <a href="./todos/{{ this._id }}/edit">edit</a>
         <button>delete</button>
     </li>
     {{/each}}
