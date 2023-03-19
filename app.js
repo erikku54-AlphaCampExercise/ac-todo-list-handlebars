@@ -9,6 +9,7 @@ app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 
+app.use(express.urlencoded({ extended: true }));
 
 //僅在非正式環境時使用dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -47,6 +48,19 @@ app.get('/', (req, res) => {
     .then( todos => res.render('index', {todos})) 
     .catch( err => console.error(err));          //error handle
 })
+
+app.get('/todos/new', (req, res) => {
+    return res.render('new')
+})
+
+app.post('/todos', (req, res) => {
+    const name = req.body.name;
+    return Todo.create({name})
+        .then( () => res.redirect('/'))
+        .catch( err => console.error(err))
+})
+
+
 
 app.listen(port, () => {
     console.log(`your app is now listening @ port: ${port}`);
