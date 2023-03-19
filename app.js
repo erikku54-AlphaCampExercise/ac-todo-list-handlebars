@@ -60,6 +60,15 @@ app.post('/todos', (req, res) => {
         .catch( err => console.error(err))
 })
 
+app.get('/todos/:id', (req, res) => {
+
+    const id = req.params.id
+
+    Todo.findOne({ _id: id})
+    .lean()
+    .then( todo => res.render('detail', {todo}))
+    .catch( err => console.log(err));
+})
 
 
 app.listen(port, () => {

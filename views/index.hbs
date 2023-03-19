@@ -1,6 +1,11 @@
 <a href="./todos/new">Create</a>
 <ul>
     {{#each todos}}
-    <li>{{this.name}}</li>
+    <li>
+        {{this.name}}
+        <button onclick="window.location.href = '/todos/{{this._id}}'">detail</button>
+        <button>edit</button>
+        <button>delete</button>
+    </li>
     {{/each}}
 </ul>
