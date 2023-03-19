@@ -4,9 +4,7 @@ const app = express();
 const port = 3000;
 
 
-
 const exphbs = require('express-handlebars').engine;
-
 app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
@@ -31,7 +29,6 @@ const mongoose = require('mongoose');
 //     console.log('mongodb connected!');
 // })
 
-
 mongoose.connect(process.env.MONGODB_URI)
 .then( () => {
     console.log('mongodb connected!');
@@ -41,9 +38,14 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 
+const Todo = require('./models/todo')
+
 app.get('/', (req, res) => {
 
-    res.render('index');
+    Todo.find()     //取出所有todos
+    .lean()         //轉換為js物件
+    .then( todos => res.render('index', {todos})) 
+    .catch( err => console.error(err));          //error handle
 })
 
 app.listen(port, () => {
