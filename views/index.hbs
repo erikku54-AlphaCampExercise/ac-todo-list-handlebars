@@ -5,7 +5,9 @@
         {{this.name}}
         <button onclick="window.location.href = '/todos/{{this._id}}'">detail</button>
         <a href="./todos/{{ this._id }}/edit">edit</a>
-        <button>delete</button>
+        <form action="/todo/{{ this._id }}/delete" method="post" style="display: inline;">
+            <button type="submit">delete</button>
+        </form>
     </li>
     {{/each}}
 </ul>

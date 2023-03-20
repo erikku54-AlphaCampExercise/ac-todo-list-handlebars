@@ -95,6 +95,15 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch( err => console.log(err))
 })
 
+app.post('/todo/:id/delete', (req, res) => {
+
+    const id = req.params.id;
+
+    Todo.findById(id)
+    .then( todo => todo.deleteOne() )
+    .then( () => res.redirect('/'))
+    .catch( err => console.log(err))
+})
 
 
 app.listen(port, () => {
