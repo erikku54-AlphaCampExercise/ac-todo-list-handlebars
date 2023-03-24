@@ -2,8 +2,6 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = router;
-
 
 const home = require('./modules/home');
 const todos = require('./modules/todos');
@@ -12,3 +10,6 @@ const todos = require('./modules/todos');
 router.use('/todos',todos)
 // 網址符合'/'的request導向home路由
 router.use('/', home)
+
+
+module.exports = router;
