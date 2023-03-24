@@ -25,7 +25,7 @@ app.use(routes);
 //     require('dotenv').config();
 // }
 
-const db = require('./config/mongoose')
+const db = require('./config/mongoose');
 
 
 app.listen(port, () => {

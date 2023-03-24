@@ -59,7 +59,7 @@ router.delete('/:id', (req, res) => {
     Todo.findById(id)
     .then( todo => todo.deleteOne() )
     .then( () => res.redirect('/'))
-    .catch( err => console.log(err))
+    .catch( err => console.log(err));
 })
 
 
