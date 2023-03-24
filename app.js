@@ -57,7 +57,7 @@ app.post('/todos', (req, res) => {
     const name = req.body.name;
     return Todo.create({name})
         .then( () => res.redirect('/'))
-        .catch( err => console.error(err))
+        .catch( err => console.error(err));
 })
 
 app.get('/todos/:id', (req, res) => {
@@ -84,15 +84,16 @@ app.get('/todos/:id/edit', (req, res) => {
 app.post('/todos/:id/edit', (req, res) => {
 
     const id = req.params.id;
-    const name = req.body.name;
+    const { name, isDone } = req.body;
 
     Todo.findById(id)
     .then( todo => {
         todo.name = name;
+        todo.isDone = isDone === 'on';
         return todo.save();
     })
     .then( () => res.redirect(`/todos/${id}`))
-    .catch( err => console.log(err))
+    .catch( err => console.log(err));
 })
 
 app.post('/todo/:id/delete', (req, res) => {

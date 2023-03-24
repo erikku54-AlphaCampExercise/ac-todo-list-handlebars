@@ -2,6 +2,7 @@
 <ul>
     {{#each todos}}
     <li>
+        <input type="checkbox" name="isDone" {{#if todo.isDone}} checked {{/if}} disabled>
         {{this.name}}
         <button onclick="window.location.href = '/todos/{{this._id}}'">detail</button>
         <a href="./todos/{{ this._id }}/edit">edit</a>
