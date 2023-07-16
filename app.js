@@ -9,6 +9,16 @@ app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 
+// 設定使用session儲存機制，其中options物件的secret是驗證字串（最必要設定）
+// resave是每次使用者互動後強制更新session，saveUninitialized是強制將未初始化的session存回（這兩項沒設會跳警告）
+const session = require('express-session');
+app.use(session({
+    secret: 'ThisIsMySecret',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+
 app.use(express.urlencoded({ extended: true }));
 
 
