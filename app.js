@@ -29,6 +29,16 @@ app.use(methodOverride('_method'));  //設定每一筆請求都會透過method-o
 const usePassport = require('./config/passport');
 usePassport(app);
 
+// 將驗證資料存入res.locals中，供後續路由取用
+// 注意req.user的資料是在passport的deserialize流程中，從資料庫中取出後放入的
+app.use((req, res, next) => {
+    console.log(req.user);
+    res.locals.isAuthenticated = req.isAuthenticated();
+    res.locals.user = req.user;
+    return next();
+})
+
+
 // 載入路由
 const routes = require('./routes');
 app.use(routes);
