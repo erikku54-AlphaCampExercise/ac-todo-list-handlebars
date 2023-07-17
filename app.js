@@ -29,13 +29,18 @@ app.use(methodOverride('_method'));  //設定每一筆請求都會透過method-o
 const usePassport = require('./config/passport');
 usePassport(app);
 
-// 將驗證資料存入res.locals中，供後續路由及view取用
+// 載入connect-flash訊息閃存機制
+const flash = require('connect-flash');
+app.use(flash());
+
+// 將驗證資料存入res.locals中，供後續路由及view樣板取用
 // 注意req.user的資料是在passport的deserialize流程中，從資料庫中取出後放入的
 app.use((req, res, next) => {
-    console.log(req.user);
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.user = req.user;
-    return next();
+    res.locals.success_msg = req.flash('success_msg');  // 設定success_msg訊息
+    res.locals.warning_msg = req.flash('warning_msg');  // 設定warning_msg訊息
+    return next();  
 })
 
 

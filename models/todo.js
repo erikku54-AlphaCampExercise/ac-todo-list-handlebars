@@ -12,7 +12,7 @@ const todoSchema = new Schema({
     },
     userId: {
         type: Schema.Types.ObjectId,    // 型態為ObjectId
-        ref: 'User',                    // 參考對象為User model
+        ref: 'User',                    // 參考對象為User model，以後可以使用populate填充功能
         index: true,                    // 將此欄位設定為索引，以後用此欄位查找時效能較好
         required: true, 
     },
