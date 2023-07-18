@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 
 const User = require('../../models/user');
 
@@ -59,23 +60,30 @@ router.post('/register', (req, res) => {
         if (user) {
             // console.log('User already exists.');
             errors.push({message: '這個Email已經註冊過了。'})
-            res.render('register', {
+            return res.render('register', {
                 errors,
                 name,
                 email,
                 password,
                 confirmPassword,
             }); 
-        } else {
-            return User.create({
+        } 
+
+        return bcrypt
+            .genSalt(10)    // 產生salt，並設定複雜係數為10
+            .then(salt => bcrypt.hash(password, salt))  // 為使用者密碼加salt，產生雜湊值
+            .then(hash => User.create({
                 name,
                 email,
-                password,
-            }).then(() => res.redirect('/'))
+                password: hash,     // 使用雜湊值取代原先的密碼
+            }))
+            .then(() => {
+                req.flash('success_msg', '註冊成功！請重新登入。')
+                res.redirect('/users/login');
+            })
             .catch(err => console.log(err));
-        }
     })
-    .catch(err => console.log(err));
+    // .catch(err => console.log(err));
 })
 
 
