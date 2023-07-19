@@ -1,8 +1,14 @@
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
 
+// 僅在非正式環境時使用dotenv
+// 在正式上線模式(production mode)中，process.env裡通常會自動新增NODE_ENV，並將值設定成"production"
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+const port = process.env.PORT || 3000;
 
 const exphbs = require('express-handlebars').engine;
 app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
@@ -16,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 // resave是每次使用者互動後強制更新session，saveUninitialized是強制將未初始化的session存回（這兩項沒設會跳警告）
 const session = require('express-session');
 app.use(session({
-    secret: 'ThisIsMySecret',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
 }));
@@ -48,11 +54,6 @@ app.use((req, res, next) => {
 const routes = require('./routes');
 app.use(routes);
 
-
-//僅在非正式環境時使用dotenv
-// if (process.env.NODE_ENV !== 'production') {
-//     require('dotenv').config();
-// }
 
 const db = require('./config/mongoose');
 
